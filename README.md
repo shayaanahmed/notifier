@@ -5,26 +5,12 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+  <p align="center">A email notifier system. Using this you can send email notifications with predefined templates.</p>
     <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Email Notifier system.
 
 ## Installation
 
@@ -58,15 +44,48 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## To add a new Service Provider
+  To implement any new mailing provider, implement the logic for that provider inside `src/shared/thrid-party/mailer` by using this template.
+  ```
+  import { EMAIL_PAYLOAD } from '../../helper';
+import { Mailer } from './mailer';
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+export class SampleMailer extends Mailer {
+  private static instanceCount = 0;
+  private static instance: SampleMailer;
 
-## Stay in touch
+  private constructor() {
+    super();
+  }
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+  static getInstance(config: any) {
+    if (this.instanceCount === 0) {
+      this.instanceCount = 1;
+      this.instance = new SampleMailer();
+    }
+    return this.instance;
+  }
+
+  configureClient(apiKey: string) {
+    // Configure your mail client here
+  }
+
+  async sendEmail(emailPayload: EMAIL_PAYLOAD) {
+    // send mail here
+    return true;
+  }
+}
+```
+  1-  Now you need to add the enumeration of the newly added mailing provider inside `src/shared/helper/types.ts` under `MAIL_PROVIDER` enumeration.
+  2-  Update the `src/shared/helper/mailer-template.ts` file as well to adjust the priority if this newly added service.
+  3-  For the configuration of the newly added service, add the config inside relevant env file and then update this accordingly `src/shared/helper/configuration.ts`.
+  
+## To add a new Message Type
+    1-  Add the newly added message type enumeration inside `src/shared/helper/types.ts` under `MESSAGE_TYPE`.
+    2-  Then update the `src/shared/helper/event-based-template.ts` file with the desired subject and other properties.
+    
+## Rate Throttle
+To adjust or modify the request rate. Navigate to `src/notifier/notifier.controller.ts` and update value inside `@Throttle(3, 60)`. Where first parameter is the number of requests and second parameter is time.
 
 ## License
 
