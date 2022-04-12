@@ -44,6 +44,17 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Accessing the endpoint
+  Endpoint: `/notifier` 
+  Method: `POST`
+  Body:
+  ```
+  {
+    "messageType": "welcomeMessage",
+    "recipient": "john.doe@mail.com"
+  }
+  ```
+
 ## To add a new Service Provider
   To implement any new mailing provider, implement the logic for that provider inside `src/shared/thrid-party/mailer` by using this template.
   ```
