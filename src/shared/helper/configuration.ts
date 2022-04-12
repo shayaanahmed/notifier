@@ -1,4 +1,4 @@
-import { MAIL_PROVIDER } from './types';
+import { MAIL_PROVIDER } from '../helper';
 
 export function getMailerConfiguration(config: any, provider: MAIL_PROVIDER) {
   const configuration: any = {};

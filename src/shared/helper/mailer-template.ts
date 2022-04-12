@@ -1,11 +1,11 @@
 import { getMailerConfiguration } from './configuration';
-import {
-  MAIL_PROVIDER,
-  MAIL_PROVIDER_CONFIG,
-  MAIL_PROVIDER_TYPE,
-} from './types';
 import { SendGridMailer } from '../third-party/mailer/send-grid';
 import { SampleMailer } from '../third-party/mailer/sample-provider';
+import {
+  MAIL_PROVIDER_CONFIG,
+  MAIL_PROVIDER,
+  MAIL_PROVIDER_TYPE,
+} from '../helper';
 
 export function getEmailProviders(config: any): MAIL_PROVIDER_CONFIG[] {
   const EMAIL_PROVIDERS: MAIL_PROVIDER_CONFIG[] = [

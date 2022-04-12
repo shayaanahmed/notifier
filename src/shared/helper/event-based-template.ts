@@ -1,4 +1,4 @@
-import { MESSAGE_TYPE } from './types';
+import { MESSAGE_TYPE } from '../helper';
 
 export const EVENT_BASE_NOTIFIER = {
   [MESSAGE_TYPE.WELCOME]: {

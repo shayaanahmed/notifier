@@ -76,12 +76,12 @@ export class SampleMailer extends Mailer {
   }
 }
 ```
-  1-  Now you need to add the enumeration of the newly added mailing provider inside `src/shared/helper/types.ts` under `MAIL_PROVIDER` enumeration.
+  1-  Now you need to add the enumeration of the newly added mailing provider inside `src/shared/helper/enums.ts` under `MAIL_PROVIDER` enumeration.
   2-  Update the `src/shared/helper/mailer-template.ts` file as well to adjust the priority if this newly added service.
   3-  For the configuration of the newly added service, add the config inside relevant env file and then update this accordingly `src/shared/helper/configuration.ts`.
   
 ## To add a new Message Type
-    1-  Add the newly added message type enumeration inside `src/shared/helper/types.ts` under `MESSAGE_TYPE`.
+    1-  Add the newly added message type enumeration inside `src/shared/helper/enums.ts` under `MESSAGE_TYPE`.
     2-  Then update the `src/shared/helper/event-based-template.ts` file with the desired subject and other properties.
     
 ## Rate Throttle
